@@ -1,0 +1,53 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Security.Cryptography.X509Certificates;
+using UnityEngine;
+
+public class Controlador : MonoBehaviour
+{
+
+    public float velocidad = 5f;
+    public float fuerzaDeSalto = 8f;
+    private float movimiento = 0f;
+    private Rigidbody2D cuerpoRigido;
+    private float contador = 0; 
+
+    public bool estaEnElPiso;
+    public Transform verificaPiso;
+    public float verificaRadio;
+    public LayerMask esPiso;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        cuerpoRigido = GetComponent<Rigidbody2D>();
+        contador = 0; 
+    }
+    // Update is called once per frame
+    private void Update()
+    {
+        estaEnElPiso = Physics2D.OverlapCircle(verificaPiso.position, verificaRadio, esPiso);
+        movimiento = Input.GetAxis("Horizontal");
+        if (movimiento > 0f)
+        {
+            cuerpoRigido.velocity = new Vector2(movimiento * velocidad, cuerpoRigido.velocity.y);
+        }
+        else if (movimiento < 0f)
+        {
+            cuerpoRigido.velocity = new Vector2(movimiento * velocidad, cuerpoRigido.velocity.y);
+        }
+
+        if (Input.GetButtonDown("Jump") && estaEnElPiso)
+        {
+            cuerpoRigido.velocity = new Vector2(cuerpoRigido.velocity.x, fuerzaDeSalto);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Item")
+        collision.gameObject.SetActive(false);
+        contador = contador + 1;
+    }
+}
