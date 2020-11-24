@@ -1,0 +1,25 @@
+sing System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Obstaculo : MonoBehaviour
+{
+    public Transform personaje;
+    public Transform inicio;
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        personaje.position = new Vector2(inicio.position.x, inicio.position.y);
+    }
